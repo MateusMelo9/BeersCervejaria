@@ -1,0 +1,22 @@
+/*
+####################
+	UTILIDADES
+####################
+*/
+.my-glyphicon-large{
+	font-size: 20px;
+}
+
+/*
+####################
+	COMPONENTES
+####################
+*/
+/*Field Action*/
+.my-field-action{
+	display: flex;
+}
+
+.my-field-action_icon{
+	margin: 5px 0 0 5px;	
+}
