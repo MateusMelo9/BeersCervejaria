@@ -2,9 +2,12 @@ package com.melus.Beers.controller;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +20,7 @@ import com.melus.Beers.model.Origem;
 import com.melus.Beers.model.Sabor;
 import com.melus.Beers.repository.CervejaRepository;
 import com.melus.Beers.repository.EstiloRepository;
+import com.melus.Beers.repository.filter.CervejaFilter;
 import com.melus.Beers.service.CervejaService;
 
 @Controller
@@ -28,6 +32,9 @@ public class CervejaController {
 	
 	@Autowired
 	private EstiloRepository estilos;
+	
+	@Autowired
+	private CervejaRepository cervejasRepository;
 	
 	@RequestMapping("/novo")
 	public ModelAndView novo(Cerveja cerveja){
@@ -48,4 +55,16 @@ public class CervejaController {
 		return new ModelAndView("redirect:/cerveja/novo");
 	}	
 	
+	@RequestMapping
+	public ModelAndView pesquisa(CervejaFilter cervejaFilter, BindingResult result ){
+		String sku = cervejaFilter.getSku() == null ? "%" : cervejaFilter.getSku();
+		List<Cerveja> skuCervejas = cervejasRepository.findBySkuContaining(sku); 
+		
+		ModelAndView mv = new ModelAndView("cerveja/PesquisaCerveja");
+		mv.addObject("estilos", estilos.findAll());
+		mv.addObject("sabores", Sabor.values());
+		mv.addObject("origens", Origem.values());
+		mv.addObject("cervejas", skuCervejas);
+		return mv;
+	}
 }

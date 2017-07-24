@@ -11,7 +11,18 @@
 		layout:fragment="conteudo">
 		<div class="page-header">
 			<div class="container-fluid">
-				<h1>Cadastro de produto</h1>
+				<div class="row">
+					<div class="col-sm-10">
+						<h1>Cadastro de produto</h1>
+					</div>
+					<div class="col-sm-2">
+						<div class="aw-page-header-controls">
+							<a class="btn btn-default" th:href="@{/cerveja}">
+								<i class="glyphicon glyphicon-plus-sign"></i><span class="hidden-xs hidden-sm">Pesquisa</span>
+							</a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -22,13 +33,13 @@
 				<th:block th:replace="fragment/MessageSuccessValidation :: mensagemSuccess"></th:block>
 				<th:block th:replace="fragment/MensagensErrorValidacao :: mensagemError"></th:block>
 				<div class="row">
-					<div class="col-sm-2">
+					<div class="col-sm-2 my-required">
 						<div class="form-group" th:classappend="${#fields.hasErrors('sku')} ? has-error">
 							<label for="sku" class="control-label">SKU</label> 
 							<input id="sku" type="text"	class="form-control" name="sku" th:field="*{sku}" />
 						</div>
 					</div>
-					<div class="col-sm-10">
+					<div class="col-sm-10 my-required">
 						<div class="form-group" th:classappend="${#fields.hasErrors('nome')} ? has-error">
 							<label for="nome" class="control-label">Nome</label>
 							 <input id="nome" type="text" class="form-control" name="nome" th:field="*{nome}" />
@@ -57,8 +68,8 @@
 						</div>
 					</div>
 					<div class="col-sm-3 form-group" th:classappend="${#fields.hasErrors('sabor')} ? has-error">
-						<label for="sabor" class="control-label">Sabor</label> <select id="sabor"
-							class="form-control" name="sabor">
+						<label for="sabor" class="control-label">Sabor</label> 
+						<select id="sabor" class="form-control" name="sabor">
 							<option value="">Sabor</option>
 							<option th:each="sabor : ${sabores}" th:text="${sabor.descricao}"
 								th:value="${sabor}" th:field="*{sabor}"></option>
@@ -142,49 +153,7 @@
 		<script th:src="@{/js/vendors/uikit.min.js}"></script>
 		<script th:src="@{/js/vendors/upload.min.js}"></script>
 		<script th:src="@{/js/vendors/handlebars.min.js}"></script>
-		<script>
-
-	$(function() {
-
-		var settings = {
-
-				type: 'json',
-				filelimit: 1,
-				allow: '*.(jpg|jpeg|png)',
-				action: '/fotos',
-				complete: function(resposta){
-					var inputName = $('input[name=foto]'); 
-					var inputContentType = $('input[name=contentType]');
-					inputName.val(resposta.nome);
-					inputContentType.val(resposta.contentType);
-					
-					
-					var htmlFotoCervejaTemplate = $('#foto-cerveja').html();
-					var template = Handlebars.compile(htmlFotoCervejaTemplate);
-					var htmlFotoCerveja = template({nomeFoto: resposta.nome});
-					
-					var uploadDrop = $('#upload-drop');
-					var containerFotoCerveja = $('.js-container-foto-cerveja');
-					
-					uploadDrop.addClass('hidden');
-					containerFotoCerveja.append(htmlFotoCerveja);	
-					
-					$('.js-remove-foto').on('click', function(){
-						uploadDrop.removeClass('hidden');
-						inputName.val('');
-						inputContentType.val('');
-						$('.js-foto-cerveja').remove();
-					});
-					
-				}
-		};
-
-		UIkit.uploadSelect($('#upload-select'), settings);
-		UIkit.uploadDrop($('#upload-drop'), settings);
-
-	});
-
-	</script>
+		<script th:src="@{/js/cerveja.upload-foto.js}"></script>
 	</th:block>
 </body>
 </html>

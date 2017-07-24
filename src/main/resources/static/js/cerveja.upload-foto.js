@@ -3,12 +3,11 @@ var Beers = Beers || {};
 Beers.UploadFoto = (function(){
 	
 	function UploadFoto(){
-		
 		this.inputName = $('input[name=foto]'); 
 		this.inputContentType = $('input[name=contentType]');
 		
 		this.htmlFotoCervejaTemplate = $('#foto-cerveja').html();
-		this.template = Handlebars.compile(htmlFotoCervejaTemplate);
+		this.template = Handlebars.compile(this.htmlFotoCervejaTemplate);
 		
 		this.uploadDrop = $('#upload-drop');
 		this.containerFotoCerveja = $('.js-container-foto-cerveja');
@@ -16,26 +15,34 @@ Beers.UploadFoto = (function(){
 	
 	UploadFoto.prototype.iniciar = function(){
 		var settings = {
-			type: 'json',
-			filelimit: 1,
-			allow: '*.(jpg|jpeg|png)',
-			action: this.containerFotoCerveja.data('url-fotos'),
-			complete: onUploadCompleto.bind(this)
+
+				type: 'json',
+				filelimit: 1,
+				allow: '*.(jpg|jpeg|png)',
+				action: this.containerFotoCerveja.data('url-fotos'),
+				complete: onUploadCompleto.bind(this)
+				
 		}
 		
 		UIkit.uploadSelect($('#upload-select'), settings);
 		UIkit.uploadDrop(this.uploadDrop, settings);
+		
+		if(this.inputName.val()){
+			onUploadCompleto.call(this, {nome: this.inputName.val(), contentType: this.inputContentType.val()});
+		}
+		
 	}
 	
 	function onUploadCompleto(resposta){
 		this.inputName.val(resposta.nome);
 		this.inputContentType.val(resposta.contentType);
 		
-		uploadDrop.addClass('hidden');
-		var htmlFotoCerveja = template({nomeFoto: resposta.nome});
-		containerFotoCerveja.append(htmlFotoCerveja);
+		this.uploadDrop.addClass('hidden');
+		var htmlFotoCerveja = this.template({nomeFoto: resposta.nome});
+		this.containerFotoCerveja.append(htmlFotoCerveja);
 		
 		$('.js-remove-foto').on('click', onRemoverFoto.bind(this));
+		
 	}
 	
 	function onRemoverFoto(){
@@ -46,7 +53,8 @@ Beers.UploadFoto = (function(){
 	}
 	
 	return UploadFoto;
-});
+	
+})();
 
 $(function(){
 	

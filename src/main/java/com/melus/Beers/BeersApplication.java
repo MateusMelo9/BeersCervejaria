@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Locale;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.format.number.NumberStyleFormatter;
@@ -19,6 +20,7 @@ import com.melus.Beers.storage.FotoStorage;
 import com.melus.Beers.storage.local.FotoStorageLocal;
 
 @SpringBootApplication
+@EnableAutoConfiguration
 public class BeersApplication extends WebMvcConfigurerAdapter{
 
 	public static void main(String[] args) {
