@@ -48,4 +48,9 @@ public class BeersApplication extends WebMvcConfigurerAdapter{
 		return new FixedLocaleResolver(new Locale("pt", "BR"));
 	}
 	
+	@Bean
+	public FotoStorage fotoStorage(){
+		return new FotoStorageLocal();
+	}
+	
 }

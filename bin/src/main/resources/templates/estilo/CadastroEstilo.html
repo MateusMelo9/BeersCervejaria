@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/LayoutPadrao">
+<head>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/vendors/bootstrap-switch.min.css}"/>
+</head>
+<body>	
+<section class="aw-layout-content  js-content" layout:fragment="conteudo">
+	<div class="page-header">
+		<div class="container-fluid">
+			<h1>Cadastro do cidade</h1>
+		</div>
+	</div>
+	
+	<div class="container-fluid">		
+		<form method="post" class="form-vertical  js-form-loading" th:object="${estilo}">
+			<th:block th:replace="fragment/MessageSuccessValidation :: mensagemSuccess"></th:block>
+			<th:block th:replace="fragment/MensagensErrorValidacao :: mensagemError"></th:block>				
+			<div class="row">											
+				<div class="col-sm-12 form-group" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+					<label for="nome" class="control-label">Nome</label> 
+					<input id="nome" type="text" class="form-control" name="nome" th:field="*{nome}"/>
+				</div>				
+			</div>			
+			<div class="form-group">
+				<button class="btn  btn-primary" type="submit">Salvar</button>
+			</div>
+		</form>
+	</div>	
+</section>		
+</body>
+</html>

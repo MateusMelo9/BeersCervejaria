@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/LayoutPadrao">
+<head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/vendors/upload.css}" />
+</head>
+<body>
+	<section class="aw-layout-content  js-content"
+		layout:fragment="conteudo">
+		<div class="page-header">
+			<div class="container-fluid">
+				<h1>Cadastro de produto</h1>
+			</div>
+		</div>
+
+		<div class="container-fluid">			
+			<!-- Formulário cadastro -->
+			<form method="post" th:object="${cerveja}"
+				class="form-vertical  js-form-loading">
+				<th:block th:replace="fragment/MessageSuccessValidation :: mensagemSuccess"></th:block>
+				<th:block th:replace="fragment/MensagensErrorValidacao :: mensagemError"></th:block>
+				<div class="row">
+					<div class="col-sm-2">
+						<div class="form-group" th:classappend="${#fields.hasErrors('sku')} ? has-error">
+							<label for="sku" class="control-label">SKU</label> 
+							<input id="sku" type="text"	class="form-control" name="sku" th:field="*{sku}" />
+						</div>
+					</div>
+					<div class="col-sm-10">
+						<div class="form-group" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+							<label for="nome" class="control-label">Nome</label>
+							 <input id="nome" type="text" class="form-control" name="nome" th:field="*{nome}" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group" th:classappend="${#fields.hasErrors('descricao')} ? has-error">
+					<label for="descricao" class="control-label">Descrição</label>
+					<textarea id="descricao" rows="3" class="form-control" name="descricao" th:field="*{descricao}"></textarea>
+				</div>
+				<div class="row">
+					<div class="col-sm-3 form-group" th:classappend="${#fields.hasErrors('estilo')} ? has-error">
+						<label for="estilo" class="control-label">Estilo</label>
+						<div class="my-field-action">
+							<select id="estilo" class="form-control" name="estilo">
+								<option value="">Selecione o estilo</option>
+								<option th:each="estilo : ${estilos}" th:value="${estilo.id}"
+									th:text="${estilo.nome}" th:field="*{estilo}"></option>
+							</select>
+							<div class="my-field-action_icon">
+								<a href="#" data-toggle="modal" data-target="#estiloCadastroModal">
+									<i class="glyphicon glyphicon-plus-sign my-glyphicon-large"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3 form-group" th:classappend="${#fields.hasErrors('sabor')} ? has-error">
+						<label for="sabor" class="control-label">Sabor</label> <select id="sabor"
+							class="form-control" name="sabor">
+							<option value="">Sabor</option>
+							<option th:each="sabor : ${sabores}" th:text="${sabor.descricao}"
+								th:value="${sabor}" th:field="*{sabor}"></option>
+						</select>
+					</div>
+					<div class="col-sm-3 form-group" th:classappend="${#fields.hasErrors('teorAlcoolico')} ? has-error">
+						<label for="teorAlcoolico" class="control-label">Teor Alcoólico</label>
+						<div class="input-group">
+							<input id="teorAlcoolico" type="text" class="form-control js-decimal" name="teorAlcoolico" 
+							th:field="*{teorAlcoolico}" />
+							<div class="input-group-addon">%</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6 form-group" th:classappend="${#fields.hasErrors('origem')} ? has-error">
+						<label for="origem" class="control-label">Origem</label>
+						<div>
+							<th:block th:each="origem : ${origens}">
+								<div class="radio radio-inline">
+									<input type="radio" id="|id_${origem}|" th:value="${origem}"
+										th:field="*{origem}" /> <label for="|id_${origem}|"
+										th:text="${origem.descricao}"></label>
+								</div>
+							</th:block>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-3 form-group" th:classappend="${#fields.hasErrors('preco')} ? has-error">
+						<label for="preco" class="control-label">Preço</label>
+						<div class="input-group">
+							<div class="input-group-addon">R$</div>
+							<input id="preco" type="text" class="form-control js-decimal"
+								name="preco" th:field="*{preco}" />
+						</div>
+					</div>
+					<div class="col-sm-3 form-group" th:classappend="${#fields.hasErrors('comissao')} ? has-error">
+						<label for="comissao" class="control-label" >Comissão</label>
+						<div class="input-group">
+							<input id="comissao" type="text" class="form-control js-decimal"
+								name="comissao" th:field="*{comissao}" />
+							<div class="input-group-addon">%</div>
+						</div>
+					</div>
+					<div class="col-sm-3 form-group" th:classappend="${#fields.hasErrors('quantidadeEstoque')} ? has-error">
+						<label for="estoque" class="control-label" >Estoque</label>
+						<div class="input-group">
+							<input id="estoque" type="text" class="form-control js-plain"
+								name="quantidadeEstoque" th:field="*{quantidadeEstoque}" />
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="form-group col-sm-12 ">
+						<input type="hidden" th:field="*{foto}"/>
+						<input type="hidden" th:field="*{contentType}"/>
+						<label class="control-label ">Foto</label>
+						
+						<div id="upload-drop" class="my-upload">
+							<i class="glyphicon glyphicon-cloud-upload"></i>
+							<span>Arraste a foto aqui ou</span>
+							<a class="my-upload-form-file">selecione aqui<input id="upload-select" type="file" accept=".jpg,.jpeg,.png"/></a>
+						</div>
+						
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<button class="btn  btn-primary" type="submit">Salvar</button>
+				</div>
+			</form>
+		</div>
+
+		<div th:replace="style/CadastroEstiloModal :: estiloModal"></div>
+	</section>
+	<th:block layout:fragment="javascript-extra">
+		<script th:src="@{/js/estilo.cadastro-modal.js}"></script>
+		<script th:src="@{/js/vendors/uikit.min.js}"></script>
+		<script th:src="@{/js/vendors/upload.min.js}"></script>
+		
+		<script>
+
+	$(function() {
+
+		var settings = {
+
+				type: 'json',
+				filelimit: 1,
+				allow: '*.(jpg|jpeg|png)',
+				action: '/fotos',
+				complete: function(resposta){
+					$('input[name=foto]').val(resposta.nome);
+					$('input[name=contentType]').val(resposta.contentType);
+				}
+		};
+
+		UIkit.uploadSelect($('#upload-select'), settings);
+		UIkit.uploadDrop($('#upload-drop'), settings);
+
+	});
+
+	</script>
+	</th:block>
+</body>
+</html>
