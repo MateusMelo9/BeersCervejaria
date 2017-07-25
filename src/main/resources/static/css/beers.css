@@ -99,6 +99,10 @@ Coluna - Pesquisa de produtos
 	width: 100px;
 }
 
+.table-cerveja-col-sabor{
+	width: 100px;
+}
+
 .table-cerveja-col-Valor{
 	width: 100px;
 	text-align: right;

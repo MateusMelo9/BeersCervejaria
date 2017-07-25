@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.format.number.NumberStyleFormatter;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -21,6 +22,7 @@ import com.melus.Beers.storage.local.FotoStorageLocal;
 
 @SpringBootApplication
 @EnableAutoConfiguration
+@EnableTransactionManagement
 public class BeersApplication extends WebMvcConfigurerAdapter{
 
 	public static void main(String[] args) {

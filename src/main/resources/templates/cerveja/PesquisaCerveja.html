@@ -51,7 +51,7 @@
 				<div class="form-goup col-sm-6">
 					<label class="control-label" for="sabor">Sabor</label>
 					<select id="sabor" class="form-control" name="sabor" th:field="*{sabor}">
-						<option value="">Sabor</option>
+						<option value="">Todos os sabores</option>
 						<option th:each="sabor : ${sabores}" th:text="${sabor.descricao}"
 							th:value="${sabor}" th:field="*{sabor}"></option>
 					</select>
@@ -96,6 +96,7 @@
 						<th class="table-cerveja-col-sku">SKU</th>
 						<th class="table-cerveja-col-nome">Nome</th>
 						<th class="table-cerveja-col-estilo">Estilo</th>
+						<th class="table-cerveja-col-sabor">Sabor</th>
 						<th class="table-cerveja-col-origem">Origem</th>
 						<th class="table-cerveja-col-Valor">Valor</th>
 						<th class="table-cerveja-col-acoes"></th>
@@ -109,6 +110,7 @@
 						<td class="text-center" th:text="${cerveja.sku}"></td>
 						<td th:text="${cerveja.nome}"></td>
 						<td th:text="${cerveja.estilo.nome}"></td>
+						<td th:text="${cerveja.sabor.descricao}"></td>
 						<td th:text="${cerveja.origem.descricao}"></td>
 						<td class="text-right" th:text="|R$ ${{cerveja.preco}}|"></td>
 						<td class="text-center">

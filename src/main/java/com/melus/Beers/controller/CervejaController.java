@@ -57,14 +57,13 @@ public class CervejaController {
 	
 	@RequestMapping
 	public ModelAndView pesquisa(CervejaFilter cervejaFilter, BindingResult result ){
-		String sku = cervejaFilter.getSku() == null ? "%" : cervejaFilter.getSku();
-		List<Cerveja> skuCervejas = cervejasRepository.findBySkuContaining(sku); 
-		
+				
 		ModelAndView mv = new ModelAndView("cerveja/PesquisaCerveja");
 		mv.addObject("estilos", estilos.findAll());
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("origens", Origem.values());
-		mv.addObject("cervejas", skuCervejas);
+		mv.addObject("cervejas", cervejas.filtrar(cervejaFilter));
+		
 		return mv;
 	}
 }
