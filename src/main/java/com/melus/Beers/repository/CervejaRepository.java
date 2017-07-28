@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.melus.Beers.model.Cerveja;
 import com.melus.Beers.model.Estilo;
 
-@Repository
 public interface CervejaRepository extends JpaRepository<Cerveja, Long>{
 	
 	public List<Cerveja> findBySkuContaining(String sku);
@@ -18,7 +18,8 @@ public interface CervejaRepository extends JpaRepository<Cerveja, Long>{
 	
 	public List<Cerveja> findBySabor(Enum sabor);
 	
-	public List<Cerveja> findByEstilo(Estilo estilo);
+	@Query(value="select * from estilo", nativeQuery = true)
+	public List<Cerveja> findByEstilo();
 	
 	public List<Cerveja> findByOrigem(Enum origem);
 	

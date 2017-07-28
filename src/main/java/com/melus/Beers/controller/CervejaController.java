@@ -40,7 +40,7 @@ public class CervejaController {
 	public ModelAndView novo(Cerveja cerveja){
 		ModelAndView mv = new ModelAndView("cerveja/CadastroCerveja");
 		mv.addObject("sabores", Sabor.values());
-		mv.addObject("estilos", estilos.findAll());
+		mv.addObject("estilos", cervejasRepository.findByEstilo());
 		mv.addObject("origens", Origem.values());
 		return mv;
 	}
